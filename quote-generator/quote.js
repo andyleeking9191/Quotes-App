@@ -3,13 +3,26 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
+const loader = document.getElementById('loader');
 
-const quoteCategories = ['management', 'sports', 'life', 'funny',];
-let counter = 0;
+const ApiQuoteCategories = ['management', 'sports', 'life', 'funny',];
+let accessArrayIndexCounter = 0;
+
+function showLoadingSpinner() {
+    loader.hidden = false;
+    quoteContainer.hidden = true;
+}
+
+function hideLoadingSpinner() {
+    if (!loader.hidden) {
+        loader.hidden = true;
+        quoteContainer.hidden = false;
+    }
+}
 
 
-async function getQuote(category='inspire') {
-    //const apiUrl = 'http://quotes.rest/qod.json';
+async function getApiQuote(category='inspire') {
+    showLoadingSpinner();
     const apiUrl = `http://quotes.rest/qod.json?category=${category}`;
     try {
         const response = await fetch(apiUrl);
@@ -21,18 +34,19 @@ async function getQuote(category='inspire') {
     } catch (error) {
         console.log(error)
     }
+    hideLoadingSpinner();
 }
 
-getQuote()
 
 newQuoteBtn.addEventListener('click', ()=> {
-    getQuote(quoteCategories[counter]);
-    counter = counter + 1;
-    if (counter > 4) {
-        counter = 0;
+    getApiQuote(ApiQuoteCategories[accessArrayIndexCounter]);
+    accessArrayIndexCounter += 1;
+    if (accessArrayIndexCounter > 4) {
+        accessArrayIndexCounter = 0;
     }
-    console.log(counter)
+    console.log(accessArrayIndexCounter)
 });
 
 
+getApiQuote();
 

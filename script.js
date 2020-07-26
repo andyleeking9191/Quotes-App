@@ -23,7 +23,7 @@ function hideLoadingSpinner() {
 
 async function getApiQuote(category='inspire') {
     showLoadingSpinner();
-    const apiUrl = `http://quotes.rest/qod.json?category=${category}`;
+    const apiUrl = `https://quotes.rest/qod.json?category=${category}`;
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
